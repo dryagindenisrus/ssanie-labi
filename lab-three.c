@@ -1,5 +1,5 @@
 #include <stdio.h>
-// task 2, varinat 02
+// task 3, varinat 02
 // https://github.com/Danzo0l
 // dryagindenisrus@gmail.com
 int blizh(int arr[], int pat);
