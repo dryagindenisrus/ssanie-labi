@@ -5,57 +5,32 @@
 
 //for input variables use ENTER
 
-int stlen(char * input_str);
-
 int main() {
     int g = 1000;
-    int j, i;
+    int j, i, count, n = 0;
+    int arr[g][g];
     char str_input[g], str_words[g][g];       	
     fgets(str_input, 1000, stdin);
     
 
     for (i=0; i<g; i++) {
-        j = 0;
-        if (str_input[i] != ' ') {
-            str_words[j][i] = str_input[i];
-        } else {
-            j ++;
-        }
-    }
-
-    //printf("%d\n", stlen(str_words, 0));
-
-    return 0;
-}
-
-
-void sort(char *arr_input, int size) {
-    int a, b;
-
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = (size - 1); j > i; j--) {
-            a = stlen(arr_input[j - 1]);
-            b = stlen(arr_input[j]);
-
-            if (a > b) {
-                int temp = arr_input[j - 1];
-                arr_input[j - 1] = arr_input[j];
-                arr_input[j] = temp;
+        count = 0;
+        for (j=0; j<g; j++) {
+            if (str_input[j + n] == ' ') {
+                arr[i][0] = i;
+                arr[i][1] = count;
+                n += count;
+                count = 0;
+                break;
+            } else {
+                str_words[i][j] = str_input[j];
+                count ++;
             }
         }
     }
-}
 
-
-int stlen(char * input_str) {
-    int output = 0;
-    char obr;
-    for (int i = 0; i < 1000; i++) {
-        if (input_str[i] != obr) {
-            output ++;
-        } else { break;}
+    for (i = 0; i < 10; i++) {
+        printf("%d, %d\n", arr[i][0], arr[i][1]);
     }
-    return output;
+    return 0;
 }
-
-
