@@ -1,4 +1,9 @@
 #include <stdio.h>
+// task 5, varinat 02
+// https://github.com/Danzo0l
+// dryagindenisrus@gmail.com
+
+//for input variables use ENTER
 
 void space(int razmer) {
     for (int i = 0; i<razmer; i++) {
