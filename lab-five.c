@@ -12,7 +12,7 @@ void space(int razmer) {
 }
 int main() {
     int g = 1000;
-    int j, i;
+    int j, i, n;
   
   	short str_words[g][g];
     char c;
@@ -44,7 +44,15 @@ int main() {
             printf("%c", ch);
             size ++;
         } while (ch != '\0');
-        space(size);
+		printf(" ");
+		for (n = 0; n < size-2; n++) {
+			j = 1;
+			do {
+      	    	ch = (char)str_words[i][j++];
+            	printf("%c", ch);
+        	} while (ch != '\0');
+			printf(" ");
+		}
     }
     printf("\n");
 
