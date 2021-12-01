@@ -12,7 +12,7 @@ void space(int razmer) {
 }
 int main() {
     int g = 1000;
-    int j, i, n;
+    int j, i, n, count = 0;
   
   	short str_words[g][g];
     char c;
@@ -22,6 +22,7 @@ int main() {
   	symbInd = 1;
   
     while ((c = getchar()) != '\n') {
+		count ++;
     	if (c == ' ') {
         wordInd++;
         str_words[wordInd][symbInd++] = '\0';
@@ -32,6 +33,10 @@ int main() {
       	str_words[wordInd][0]++;
       	
     }
+		if (count > g) {
+			printf("Error");
+			return -1;
+		}
 
     int size = 0;
     

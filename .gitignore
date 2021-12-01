@@ -2,5 +2,11 @@ a.exe
 f.py
 t.c
 a.out
+<<<<<<< HEAD
 t.c
 .vscode
+=======
+.vscode
+.swp
+mo.c
+>>>>>>> c92504fba59d989d4ae63646ce3b96a715337559
