@@ -2,11 +2,25 @@ a.exe
 f.py
 t.c
 a.out
-<<<<<<< HEAD
 t.c
 .vscode
+<<<<< HEAD
+0/a.exe
+0/a.out
+1/a.exe
+1/a.out
+2/a.exe
+2/a.out
+3/a.exe
+3/a.out
+4/a.exe
+4/a.out
+5/a.exe
+5/a.out
+6/a.exe
+6/a.out
+7/a.exe
+7/a.out
 =======
 .vscode
 .swp
-mo.c
->>>>>>> c92504fba59d989d4ae63646ce3b96a715337559
