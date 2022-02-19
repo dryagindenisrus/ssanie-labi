@@ -8,10 +8,11 @@ int main() {
     char b[12];
 
     
-    cout << "\033[3;44;30mRUNNED...\033[0m\n>>> ";
+    cout << "\033[3;44;30mRUNNED...\033[0m\n";
 
     while (1) {
         // eto ne moy kod
+        cout << ">>>";
         scanf("%ld", &a);
         printf("\n\x1B[33mtesting:\033[0m\t%o\n", a);
 
