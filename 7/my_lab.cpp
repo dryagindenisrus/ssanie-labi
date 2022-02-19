@@ -12,10 +12,12 @@ char ltoab(long num, char s[]) {
     long nam = num;
 
     int i = 0;
-    int count = 0;
+    int count = 0;  
     if (nam < 0) {
-        num = num * (-1);
-        znak = '-';
+        nam = -1*num + 1;
+        num = 17777777777 - nam;
+        //37 777 777 773
+        //17 777 777 777
         //i = 1;
     } else if (nam == 0) {
         s[0] = strk[0];
@@ -29,7 +31,7 @@ char ltoab(long num, char s[]) {
         i++;
     }
 
-    swap[i] = znak;
+    //swap[i] = znak;
 
     for (int j=0; j<i+1; j++) {
         s[i-j] = swap[j];
@@ -37,4 +39,3 @@ char ltoab(long num, char s[]) {
 
     return i+1;
 }
-
