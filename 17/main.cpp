@@ -16,10 +16,10 @@ int main() {
     std::cout << "len(lst) = " << lst.getSize() << std::endl;
 
     lst.find_and_erase('0');
-    lst.find_and_erase('1');
+    lst.find_and_erase('2');
 
     std::cout << "len(lst) = " << lst.getSize() << std::endl;
-    std::cout << "lst[0] = " << lst[0] << std::endl;
+    std::cout << "lst[0] = " << lst[12] << std::endl;
 
     return 0;
 }

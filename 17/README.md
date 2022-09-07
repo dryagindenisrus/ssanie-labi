@@ -1,6 +1,6 @@
 # Lab 17  
 
-**For build using gcc/g++ run:** `g++ main.cpp List.h List.cpp`  
+**For build using gcc/g++ run:** `g++ main.cpp List.h`  
 
 **For start program run:** 
 * windows `./a.exe`  

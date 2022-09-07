@@ -1,12 +1,27 @@
 #ifndef LIST_H
 #define LIST_H
 #include <iostream>
+#include <exception>
+#include <stdexcept>
+
+
+class ListException: public std::exception {
+    private:
+    	std::string m_error;
+    public:
+    	ListException(std::string error)
+    		: m_error(error) {}
+    	const char* what() const noexcept { 
+            return m_error.c_str(); 
+        }
+};
+
+
 
 template <typename T> 
 class List {
     private:
-        // template <typename T>
-        void at(const int error_code);
+        void at(const ListException e);
         class Node {
             friend class List;
             public:
@@ -80,28 +95,30 @@ T List<T>::find_and_erase(const T& value) {
     }
     
     while (current->pNext != nullptr) {
-        prev = current;
-        current = current->pNext;
-        // std::cout << " <" << current->data << "> " << std::endl;
-        if (current->data == value) {
-            // std::cout << "OK ";
-            prev->pNext = current->pNext;
-            this->Size--;
-            return current->data;
-        }
+        try {
+            prev = current;
+            current = current->pNext;
+            // std::cout << " <" << current->data << "> " << std::endl;
+            if (current->data == value) {
+                // std::cout << "OK ";
+                prev->pNext = current->pNext;
+                this->Size--;
+                return current->data;
+            }
+            if (current->data != value && current->pNext == nullptr) {
+                throw ListException("Cannot find element");
+            }
+        } catch (ListException &e) {
+            this->at(e);
+        }        
     }
-
     return value;
 }
 
 
 template <typename T>
-void List<T>::at(const int error_code) {
-    if (error_code==0) {
-        // code for succes finish
-    } else if (error_code==1) {
-        throw "IndexError: list index out of range\n";
-    }
+void List<T>::at(const ListException e) {
+    std::cerr << "\n\x1B[31mListException:\033[0m\t" << e.what() << std::endl;
 }
 
 
@@ -116,14 +133,19 @@ T & List<T>::operator[](const int index) {
     }
 
     while (current!=nullptr) {
-        if (count == clone_index) {
-            this->at(0);
-            return current->data;
+        try {
+            if (count == clone_index) {
+                return current->data;
+            }
+            current = current->pNext;
+            count++;
+            if (current==nullptr && count != clone_index) {
+                throw ListException("Index list out od range");
+            }
+        } catch (ListException &e) {
+            this->at(e);
         }
-        current = current->pNext;
-        count++;
     };
-    this->at(1);
     return current->data;
     
 };
