@@ -5,6 +5,9 @@
 #include <stdexcept>
 
 
+struct Point { int x; int y; int z; };
+
+
 class ListException: public std::exception {
     private:
     	std::string m_error;
@@ -37,9 +40,11 @@ class List {
         ~List();
         int Size;
         List<T>::Node *head;
+        List<T> intersection_of_lists(List<T> list2);
         void push_back(T data);
         void push_front(T data);
         T find_and_erase(const T& value);
+        T find(int index);
         int getSize() {return Size;};
         T& operator[](const int index);
 };
@@ -80,6 +85,43 @@ void List<T>::push_front(T data) {
     }
     Size++;
 };
+
+
+template <typename T>
+T List<T>::find(int index) {
+    int counter = 0;
+    List<T>::Node *current = this->head;
+    List<T>::Node *prev;
+    // std::cout << " <" << current->data << "> " << std::endl;
+    if (counter == index) {
+        // std::cout << "OK ";
+        this->head = current->pNext;
+        this->Size--;
+        return current->data;
+    }
+    
+    while (current->pNext != nullptr) {
+        try {
+            prev = current;
+            current = current->pNext;
+            counter++;
+            // std::cout << " <" << current->data << "> " << std::endl;
+            if (counter == index) {
+                // std::cout << "OK ";
+                prev->pNext = current->pNext;
+                this->Size--;
+                return current->data;
+            }
+            if (counter != index && current->pNext == nullptr) {
+                throw ListException("Cannot find element");
+            }
+        } catch (ListException &e) {
+            this->at(e);
+        }        
+    }
+    return current->data;
+}
+
 
 
 template <typename T>
@@ -149,6 +191,21 @@ T & List<T>::operator[](const int index) {
     return current->data;
     
 };
+
+template <typename T>
+List<T> List<T>::intersection_of_lists(List<T> list2) {
+    List<T> intersection;
+    // std::cout << "list1: " << list1[0] << "\nlist2: " << list2[0] << std::endl;
+    for (int i = 0; i<this->getSize(); i++) {
+        for (int j = 0; j<list2.getSize(); j++) {
+            if (this->find(i) == list2[j]) {
+                
+                intersection.push_back(list2[i]);
+            }
+        }
+    }
+    return intersection;
+}
 
 
 #endif
