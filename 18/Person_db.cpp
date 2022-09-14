@@ -12,16 +12,11 @@ Person::Person(
     this->last_name = last_name;
     this->year_of_birth = year_of_birth;
     this->sex = sex;
-}
+};
 
 
 Person::~Person() {
 
-}
+};
 
-
-ostream& operator<<(ostream &os, const Person& d) {
-    return os  << '(' << d.first_name << '.' << d.first_name
-        << '.' << d.getYear() << ')' << std::endl;
-}
 
