@@ -3,9 +3,6 @@
 
 int main() {
 
-    std::string boo = "HGKJHGHG12313";
-    // std::cout << boo << std::endl;
-
     DataBase a;
     const Person pool0 = Person("Bugai", "Gaga", 2010, true, "1234123456");
     const Person pool1 = Person("GGG", "Gaga", 2011, true, "1234123455");
