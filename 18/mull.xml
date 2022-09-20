@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<dataBase>
+	<entity>
+		<first_name>OOO</first_name>
+		<last_name>AAAA</last_name>
+		<year_of_birth>2012</year_of_birth>
+		<sex>female</sex>
+		<number_of_passport>001203123123</number_of_passport>
+	</entity>
+	<entity>
+		<first_name>Misha</first_name>
+		<last_name>Ezheliy</last_name>
+		<year_of_birth>2030</year_of_birth>
+		<sex>male</sex>
+		<number_of_passport>4017123456</number_of_passport>
+	</entity>
+	<entity>
+		<first_name>Vasilina</first_name>
+		<last_name>Mihailova</last_name>
+		<year_of_birth>2002</year_of_birth>
+		<sex>female</sex>
+		<number_of_passport>401712343412</number_of_passport>
+	</entity>
+</dataBase>

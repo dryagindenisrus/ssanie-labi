@@ -22,10 +22,11 @@ int main() {
     a.load("db.db");
     std::cout << a << std::endl;
     a.erase(pool0);
-    a.save("mull.db");
-    // a.save("db.db");
-
+    a.erase(pool1);
     a.info();
+    a.save("mull.db");
+    a.save_xml("mull.xml");
+    // a.save("db.db");
 
     
 
