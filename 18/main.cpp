@@ -19,13 +19,13 @@ int main() {
     // a.add(pool1);
     
     (pool0 == pool2);
-    a.load("db.db");
+    // a.load("db.db");
     std::cout << a << std::endl;
-    a.erase(pool0);
-    a.save("mull.db");
+    // a.erase(pool0);
+    // a.save("mull.db");
     // a.save("db.db");
 
-    a.info();
+    // a.info();
 
     
 
