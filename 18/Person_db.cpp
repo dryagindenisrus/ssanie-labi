@@ -131,6 +131,33 @@ void DataBase::load(const std::string& filename) {
 };
 
 
+void DataBase::save_xml(const std::string& filename) {
+    std::ofstream out;
+    Person current_person = this->items.front();
+    std::string sexy;
+    out.open(filename);
+    if (out.is_open()) {
+        std::list<Person>::iterator current = this->items.end();
+        out << "<?xml version=\"1.0\"?>\n<dataBase>\n";
+        while (current != this->items.begin()) {
+            --current;
+            Person current_person = *current;
+            if (current_person.sex == 0) {
+                sexy = "female";
+            } else {
+                sexy = "male";
+            }
+            out << "\t<entity>\n\t\t<first_name>" << current_person.first_name << "</first_name>\n\t\t<last_name>" << current_person.last_name
+            << "</last_name>\n\t\t<year_of_birth>" << current_person.year_of_birth << "</year_of_birth>\n\t\t<sex>" << sexy << "</sex>\n\t\t<number_of_passport>" 
+            << current_person.number_of_passport << "</number_of_passport>\n\t</entity>" << std::endl;
+        }
+    }
+    out << "</dataBase>";
+    out.close();
+    std::cout << "\x1B[32mDataBase writed to XML!\033[0m\t" << std::endl;
+};
+
+
 void DataBase::info() {
     if (this->items.empty()) {
             std::cout << "Database is empty (\x1B[33m0\033[0m entities)" << std::endl;

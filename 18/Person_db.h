@@ -60,6 +60,7 @@ class DataBase {
         void info();
         void create(const std::string& filename);
         void save(const std::string& filename);
+        void save_xml(const std::string& filename);
         void load(const std::string& filename);
         void add(const Person& p);
         Person erase(const Person& p);
