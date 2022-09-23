@@ -2,34 +2,25 @@
 #define GRAFIK_H
 
 #include <vector>
+#include <fstream>
 
-
-struct Edge {
-    int src, dest;
-};
-
-
-struct Lenght
-{
-    int point;
-    int lenght;
-};
 
 
 class Graph
 {
-    private:   
+    private:
+        int start;
         int count_of_point;
-        std::vector<std::vector<int>> adjList;
-        std::vector<Edge> edges;
-        std::vector<Lenght> lenght_of_pathes;
-        void generate(std::vector<Edge> const &edges, int n);
+        std::vector<int> matrix;
+        std::vector<int> lenght_of_pathes;
 
     public:
         Graph(int matrix_size, int** matrixa);
         void bfs();
-        void out_graph();
+        void out_path();
+        void out_matrix();
+        void set_start(const std::string& filename);
 };
- 
+
 
 #endif

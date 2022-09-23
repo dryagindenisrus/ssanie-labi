@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
 
-    int size_matrix = 4;
+    int size_matrix = 5;
     int** matrix;
 
     
@@ -15,20 +15,16 @@ int main() {
     {
         matrix[i] = new int[size_matrix] {0};
     }
-    // for (int i = 0; i < size_matrix; i++)
-    // {
-    //     for (int j = i+1; j < size_matrix; j++)
-    //     {
-    //         matrix[i][j] = 1;
-    //     }
-    // }
-    matrix[0][1] = 1; matrix[0][2] = 1;
 
-    Graph a(4, matrix);
-    a.out_graph();
-        
+    matrix[0][1] = 1; matrix[0][2] = 1; matrix[0][4] = 1; matrix[1][3] = 1; 
+    matrix[1][0] = 1; matrix[2][0] = 1; matrix[4][0] = 1; matrix[3][1] = 1;
 
+    Graph a(size_matrix, matrix);
 
+    a.set_start("start_point.txt");
+    a.out_matrix();
+    a.bfs();
+    a.out_path();
 
     return 0;
 }
