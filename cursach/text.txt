@@ -1,0 +1,29 @@
+What Python is used for
+The most basic use case for Python is as a scripting and automation language. Python isn’t just a replacement for shell scripts or batch files; it is also used to automate interactions with web browsers or application GUIs or to do system provisioning and configuration in tools such as Ansible and Salt. But scripting and automation represent only the tip of the iceberg with Python.
+
+General application programming with Python
+You can create both command-line and cross-platform GUI applications with Python and deploy them as self-contained executables. Python doesn’t have the native ability to generate a standalone binary from a script, but third-party packages like cx_Freeze and PyInstaller can be used to accomplish that.
+
+Data science and machine learning with Python
+Sophisticated data analysis has become one of fastest-moving areas of IT and one of Python’s star use cases. The vast majority of the libraries used for data science or machine learning have Python interfaces, making the language the most popular high-level command interface to for machine learning libraries and other numerical algorithms.
+
+[ The essentials from InfoWorld: Get started with Anaconda, the Python distribution for data science. • What’s new in the Anaconda distribution for Python. • 5 essential Python tools for data science—now improved. ]
+Web services and RESTful APIs in Python
+Python’s native libraries and third-party web frameworks provide fast and convenient ways to create everything from simple REST APIs in a few lines of code to full-blown, data-driven sites. Python’s latest versions have strong support for asynchronous operations, letting sites handle tens of thousands of requests per second with the right libraries.
+
+Metaprogramming and code generation in Python
+In Python, everything in the language is an object, including Python modules and libraries themselves. This lets Python work as a highly efficient code generator, making it possible to write applications that manipulate their own functions and have the kind of extensibility that would be difficult or impossible to pull off in other languages.
+
+Python can also be used to drive code-generation systems, such as LLVM, to efficiently create code in other languages.
+
+“Glue code” in Python
+Python is often described as a “glue language,” meaning it can let disparate code (typically libraries with C language interfaces) interoperate. Its use in data science and machine learning is in this vein, but that’s just one incarnation of the general idea. If you have applications or program domains that you would like to hitch up, but cannot talk to each other directly, you can use Python to connect them.
+
+Where Python falls short
+Also worth noting are the sorts of tasks Python is not well-suited for.
+
+Python is a high-level language, so it’s not suitable for system-level programming—device drivers or OS kernels are out of the picture.
+
+It’s also not ideal for situations that call for cross-platform standalone binaries. You could build a standalone Python app for Windows, MacOS, and Linux, but not elegantly or simply.
+
+Finally, Python is not the best choice when speed is an absolute priority in every aspect of the application. For that, you’re better off with C/C++ or another language of that caliber.

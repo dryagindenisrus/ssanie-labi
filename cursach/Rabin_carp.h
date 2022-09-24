@@ -3,27 +3,23 @@
 
 #include <string>
 
+const int h = 3;
+
 
 class Rabin_carp
 {
 private:
     std::string text;
     std::string pattern;
-    int rolling_hash(std::string pattern);
+    
     int finded_index;
     
 public:
     Rabin_carp();
     ~Rabin_carp();
+    void set_pattern(const std::string& pattern);
+    long long int rolling_hash();
 };
-
-Rabin_carp::Rabin_carp(/* args */)
-{
-}
-
-Rabin_carp::~Rabin_carp()
-{  
-}   
 
 
 #endif
