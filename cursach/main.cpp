@@ -4,12 +4,15 @@
 
 int main()
 {
-    std::string str = "abcdefgef ffsdfsafsafsfsaf5675678 6jjkghkhjdkkkkkmonpr";
+    std::string str = "a science and m";
     Rabin_carp a;
     std::string text;
-    std::cout << 272257 - prime_const << std::endl;
+    a.set_string("text.txt");
     a.set_pattern(str);
-    std::cout << a.rolling_hash() << std::endl;
-
+    std::cout << a.rolling_hash(str) << std::endl;
+    // a.out_text();
+    a.find_by_index();
+    std::cout << a.find_by_index() << std::endl;
+    
     return 0;
 }
