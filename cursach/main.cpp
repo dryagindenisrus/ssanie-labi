@@ -4,10 +4,10 @@
 
 int main()
 {
-    std::string str = "abcdefgef ghijkmonpr";
+    std::string str = "abcdefgef ffsdfsafsafsfsaf5675678 6jjkghkhjdkkkkkmonpr";
     Rabin_carp a;
     std::string text;
-    std::cout << text.max_size() << std::endl;
+    std::cout << 272257 - prime_const << std::endl;
     a.set_pattern(str);
     std::cout << a.rolling_hash() << std::endl;
 
