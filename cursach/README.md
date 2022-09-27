@@ -15,12 +15,4 @@
 
 
 ### Task:   
-Сделать реализацию list (классы node и list) на шаблонах.  
-* `load(const std::string& filename)`
-* `save(const std::string& filename)`
-* `operator<<` (для вывода на экран)
-* `add(const Person& p)`
-* `erase(const Person& p)`
 
-
-доп: метод сохраняет бд в формате xml

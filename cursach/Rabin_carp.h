@@ -29,26 +29,34 @@ class Rabin_carp
 private:
     std::string text;
     std::string pattern;
-    int pattern_size;
+    
+    int current_index = 1;
 
-    std::vector<int> hash_collision;
-    int finded_index;
+    int pattern_hash;
+    int h;
 
+    std::vector<int> finded_indexes;
+    int first_finded_index;
     void at(const FindException e);
     bool symbol_by_symbol(const std::string& pattern1, const std::string& pattern2);
+
     
     
 public:
+    int pattern_size;
     Rabin_carp();
     ~Rabin_carp();
     void set_pattern(const std::string& pattern);
+    void input_pattern();
     void set_string(const std::string& filename);
     int rolling_hash(const std::string& pattern);
-    int init_rolling_hash(const std::string& pattern);
-    int find_by_index();
+    int rolling_rehash(int hash_result, char new_symb);
+    std::vector<int> find_by_index();
     std::string find_in_text();
     void out_text();
     int find();
+    int hInit(int str_lenght);
+    int ring_hash(std::string str, int prev_hash);
 };
 
 
