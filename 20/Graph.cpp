@@ -4,15 +4,8 @@
 #include <vector>
 
 
-Graph::Graph(int matrix_size, int** matrixa)
+Graph::Graph(int matrix_size)
 {   
-    for (int i = 0; i < matrix_size; i++)
-    {
-        for (int j = 0; j < matrix_size; j++)
-        {   
-            this->matrix.push_back(matrixa[i][j]);
-        }
-    }
     this->count_of_point = matrix_size;
     this->lenght_of_pathes.resize(count_of_point);
 };
@@ -43,6 +36,26 @@ void Graph::set_start(const std::string& filename)
         while(getline(input, s)) 
         { 
             this->start = std::stoi(s);
+        }
+    }
+};
+
+void Graph::set_matrix(const std::string& filename)
+{
+    std::string s;
+    std::ifstream input; 
+    input.open(filename);
+    
+    if (input.is_open()) 
+    {
+        while(getline(input, s)) 
+        { 
+            for (int i=0; i<(s.size()); i++)
+            {
+                if (s.substr(i, 1) != " ") {
+                    this->matrix.push_back(std::stoi(s.substr(i, 1)));
+                } 
+            }
         }
     }
 };
@@ -87,3 +100,24 @@ void Graph::bfs()
     }
 };
 
+
+void Graph::draw_graph(const std::string& filename) 
+{
+    std::ofstream out;
+    out.open(filename);
+    if (out.is_open()) {
+        out << "graph ER { " << this->start << " [shape=ellipse,style=filled,color=red];";
+        for (int i=0; i<this->count_of_point; i++) {
+            for (int j=i; j<this->count_of_point; j++) {
+                if (this->matrix[i*this->count_of_point + j] == 1) {
+                    out << i << " -- " << j << "; ";
+                }
+                 
+            }
+        }
+    }
+    // graph ER { name0 [shape=ellipse,style=filled,color=red]; name0 -- course; fontsize=20; }s
+    out << "}";
+    out.close();
+    std::cout << "\x1B[32mFINISHED!\033[0m\t" << std::endl;
+};
