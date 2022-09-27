@@ -106,11 +106,11 @@ void Graph::draw_graph(const std::string& filename)
     std::ofstream out;
     out.open(filename);
     if (out.is_open()) {
-        out << "graph ER { " << this->start << " [shape=ellipse,style=filled,color=red];";
+        out << "graph ER { \"" << this->start << "(0)\" [shape=ellipse,style=filled,color=red];";
         for (int i=0; i<this->count_of_point; i++) {
             for (int j=i; j<this->count_of_point; j++) {
                 if (this->matrix[i*this->count_of_point + j] == 1) {
-                    out << i << " -- " << j << "; ";
+                    out << "\"" << i << "(" << lenght_of_pathes[i] << ")" << "\" -- \"" << j << "(" << lenght_of_pathes[j] << ")\"; ";
                 }
                  
             }
