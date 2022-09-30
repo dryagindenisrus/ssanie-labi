@@ -8,7 +8,7 @@
 #include <stdexcept>
 
 
-const int d = 52;
+const int d = 13;
 const int prime_const = 65713;
 
 
@@ -31,32 +31,35 @@ private:
     std::string pattern;
     
     int current_index = 1;
-
+    int pattern_size;
     int pattern_hash;
-    int h;
-
-    std::vector<int> finded_indexes;
+    
+    int text_diaposone = 64;
+    
+    std::vector<long long int> finded_indexes;
     int first_finded_index;
+
     void at(const FindException e);
     bool symbol_by_symbol(const std::string& pattern1, const std::string& pattern2);
+    int find();
 
     
     
 public:
-    int pattern_size;
     Rabin_carp();
     ~Rabin_carp();
+
     void set_pattern(const std::string& pattern);
+    void set_text_diaposone(const unsigned int new_diaposone);
     void input_pattern();
     void set_string(const std::string& filename);
+
     int rolling_hash(const std::string& pattern);
-    int rolling_rehash(int hash_result, char new_symb);
-    std::vector<int> find_by_index();
-    std::string find_in_text();
+    int rolling_rehash(int hash_result, const std::string& prev_pattern, const std::string& new_pattern);
     void out_text();
-    int find();
-    int hInit(int str_lenght);
-    int ring_hash(std::string str, int prev_hash);
+
+    std::vector<long long int> find_by_index();
+    void find_in_text();
 };
 
 

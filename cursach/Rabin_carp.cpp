@@ -67,91 +67,137 @@ void Rabin_carp::out_text()
 // rolling hash for string
 int Rabin_carp::rolling_hash(const std::string& pattern)
 {
-    int hash_result;
-    int str_size = pattern.size();
+    int hash = 0;
+    int str_size = this->pattern_size;
     this->current_index = 0;
 
     for (int i = 0; i < str_size; i++)
     {   
         // c - value of char in ASCII
-        int c = pattern[i];
-        // h - const in ".h" file
-        hash_result = (hash_result + (d * hash_result + c)) % prime_const;
+        int char_code = pattern[i];
+        // d - const in ".h" file
+        hash = (hash * d + char_code) % prime_const;
         // std::cout << hash_result << std::endl;
     }
 
-    return hash_result;
+    return hash;
 };
 
 
 // rehash function for text
-int Rabin_carp::rolling_rehash(int hash_result, char new_symb)
+int Rabin_carp::rolling_rehash(int prev_hash, const std::string& prev_pattern, const std::string& new_pattern)
 {
-    int c = this->text[this->current_index + this->pattern_size];
-    int b = this->text[current_index];
+    int hash = prev_hash;
+    int multiplier = 1;
+    int base = d;
 
-    int rehash_result = (hash_result + (d * hash_result + c)) % prime_const;
+    for (int i = 1; i < this->pattern_size; i++) 
+    {
+        multiplier *= base;
+        multiplier %= prime_const;
+    } 
 
-    this->current_index ++;
+    int char_code = prev_pattern[0];
+    int new_char_code = new_pattern[this->pattern_size-1];
 
-    return rehash_result;
+    hash += prime_const;
+    hash -= (multiplier * char_code) % prime_const;
+    hash *= base;
+    hash += new_char_code;
+    hash %= prime_const;
+
+    return hash;
 };
 
 
 // classic find method
 int Rabin_carp::find()
 {
-    // this->pattern_hash = this->rolling_hash(this->pattern);
-    // int text_substring_hash = this->rolling_hash(this->text.substr(0, this->pattern_size));
+    this->pattern_hash = this->rolling_hash(this->pattern);
+    int text_substring_hash = this->rolling_hash(this->text.substr(0, this->pattern_size));
 
     // std::cout << text_substring_hash << std::endl;
 
     for (int i = 0; i < this->text.size(); i++)
     {
         // std::cout << "p(" << this->pattern_hash << ") - s(" << this->rolling_hash(this->text.substr(i, this->pattern_size)) << ")" << std::endl;
-        if (this->text.substr(i, this->pattern_size) == pattern)
+        if (this->pattern_hash == text_substring_hash)
         {
-            this->first_finded_index = i;
-
-            std::cout << "..." << this->text.substr(i-64, 64) 
-            << "\x1B[33m" << this->text.substr(i, this->pattern_size) << "\033[0m" 
-            << this->text.substr(i+pattern_size, this->pattern_size+32) 
-            << "..." << std::endl;
+            if (this->text.substr(i, this->pattern_size) == this->pattern)
+            {
+                this->first_finded_index = i;
+                this->finded_indexes.push_back(i);     
+            }           
         }
+        text_substring_hash = this->rolling_rehash(
+            text_substring_hash, 
+            this->text.substr(i, this->pattern_size),  
+            this->text.substr(i + 1, this->pattern_size + 1)
+        );
+
     }
 
     return 0;
 };
 
 
-// h init mathod
-int Rabin_carp::hInit(int str_lenght) {
-    int d = 52;
-    int    p = 65713;
-
-    int h = 1;
-    for(unsigned int i=1; i < str_lenght; i++) {
-        h = (h*d) % p;
-    }
-
-    return h;
+// find sustring and return index of finded pattern
+std::vector<long long int> Rabin_carp::find_by_index()
+{
+    return this->finded_indexes;
 }
 
 
-// find sustring and return index of finded pattern
-std::vector<int> Rabin_carp::find_by_index()
+void Rabin_carp::find_in_text()
 {
     this->find();
 
-    return this->finded_indexes;
+    for (int i = 0; i < this->finded_indexes.size(); i++)
+    {
+        int prev_diaposone = this->text_diaposone;
+        int post_diaposone = this->text_diaposone / 2;
+
+        if (this->finded_indexes[i] < this->text_diaposone)
+        {
+            prev_diaposone = this->finded_indexes[i];
+        }
+        if (this->finded_indexes[i] + pattern_size + this->text_diaposone > this->text.size())
+        {
+            post_diaposone = this->text.size() - this->finded_indexes[i];
+        }
+
+        std::cout << "..." << this->text.substr(finded_indexes[i]-prev_diaposone, prev_diaposone) 
+        << "\x1B[33m" << this->text.substr(finded_indexes[i], this->pattern_size) << "\033[0m" 
+        << this->text.substr(finded_indexes[i]+pattern_size, this->pattern_size + post_diaposone) 
+        << "..." << std::endl;
+    }
+    
+}
+
+
+// set diaposone of text for finded_in_text()
+// DEFAULT VALUE: 64
+void Rabin_carp::set_text_diaposone(const unsigned int new_diaposone)
+{
+    this->text_diaposone = new_diaposone;
 }
 
 
 // method for comparison symbol by symbol
 bool Rabin_carp::symbol_by_symbol(const std::string& pattern1, const std::string& pattern2)
 {
-    if (pattern1 == pattern2) { return true; }
-    else { return false; }
+    // if (pattern1 == pattern2) { return true; }
+    // else { return false; }
+
+    for (int i = 0; i < this->pattern_size; i++)
+    {
+        if (pattern1[i] != pattern2[i])
+        {
+            return false;
+        }
+        
+    }
+    return true;
 };
 
 
@@ -163,37 +209,3 @@ Rabin_carp::Rabin_carp()
 Rabin_carp::~Rabin_carp()
 {  
 };
-
-
-
-int Rabin_carp::ring_hash(std::string str, int prev_hash) {
-    // char* str, unsigned int strLen, int prevHash, int *h
-    int str_lenght = this->pattern_size;
-
-    int d = 52;
-    int p = 65713;
-
-    if(this->h == 0) {
-        this->h = this->hInit(str_lenght);
-    }
-
-    if(prev_hash == 0) {
-        for (unsigned int i = 0; i < str_lenght; i++) 
-        {
-            prev_hash += (d*prev_hash + (int)str[i]) % p;
-        }
-        if(prev_hash < 0) {
-            prev_hash += p;
-        }
-
-        return prev_hash;
-    }
-    else {
-        int hash = (d * (prev_hash - (int)str[0] * this->h) + (int)str[str_lenght]) % p;
-        if(hash < 0) {
-            hash += p;
-        }
-
-        return hash;
-    }
-}
