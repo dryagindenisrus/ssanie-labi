@@ -123,7 +123,7 @@ int Rabin_carp::find()
         // std::cout << "p(" << this->pattern_hash << ") - s(" << this->rolling_hash(this->text.substr(i, this->pattern_size)) << ")" << std::endl;
         if (this->pattern_hash == text_substring_hash)
         {
-            if (this->text.substr(i, this->pattern_size) == this->pattern)
+            if (this->symbol_by_symbol(this->text.substr(i, this->pattern_size), this->pattern))
             {
                 this->first_finded_index = i;
                 this->finded_indexes.push_back(i);     

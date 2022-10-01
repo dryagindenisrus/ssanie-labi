@@ -4,7 +4,7 @@
 
 int main()
 {
-    std::string str = "What Python";
+    std::string str = "Anaconda";
     Rabin_carp a;
     std::string text;
 
