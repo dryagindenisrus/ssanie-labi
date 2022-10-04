@@ -36,7 +36,6 @@ private:
     int text_diaposone = 64;
     
     std::vector<long long int> finded_indexes;
-    int first_finded_index;
 
     void at(const FindException e);
     bool symbol_by_symbol(const std::string& pattern1, const std::string& pattern2);

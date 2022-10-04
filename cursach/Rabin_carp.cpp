@@ -124,7 +124,6 @@ int Rabin_carp::find()
         {
             if (this->symbol_by_symbol(this->text.substr(i, this->pattern_size), this->pattern))
             {
-                this->first_finded_index = i;
                 this->finded_indexes.push_back(i);     
             }           
         }
