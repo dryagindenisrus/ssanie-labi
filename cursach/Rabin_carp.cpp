@@ -128,6 +128,7 @@ int Rabin_carp::find()
             }           
         }
         text_substring_hash = this->rolling_rehash(
+            text_substring_hash, 
             this->text.substr(i, this->pattern_size),  
             this->text.substr(i + 1, this->pattern_size + 1)
         );
