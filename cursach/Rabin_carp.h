@@ -30,7 +30,6 @@ private:
     std::string text;
     std::string pattern;
     
-    int current_index = 1;
     int pattern_size;
     int pattern_hash;
     

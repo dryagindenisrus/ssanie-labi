@@ -69,7 +69,6 @@ int Rabin_carp::rolling_hash(const std::string& pattern)
 {
     int hash = 0;
     int str_size = this->pattern_size;
-    this->current_index = 0;
 
     for (int i = 0; i < str_size; i++)
     {   
