@@ -97,7 +97,7 @@ int Rabin_carp::rolling_rehash(int prev_hash, const std::string& prev_pattern, c
     } 
 
     int char_code = prev_pattern[0];
-    int new_char_code = new_pattern[this->pattern_size-1];
+    int new_char_code = new_pattern[this->pattern_size - 1];
 
     hash += prime_const;
     hash -= (multiplier * char_code) % prime_const;
@@ -128,7 +128,6 @@ int Rabin_carp::find()
             }           
         }
         text_substring_hash = this->rolling_rehash(
-            text_substring_hash, 
             this->text.substr(i, this->pattern_size),  
             this->text.substr(i + 1, this->pattern_size + 1)
         );
