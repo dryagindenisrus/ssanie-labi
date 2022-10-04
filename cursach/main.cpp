@@ -10,8 +10,8 @@ int main()
 
     a.set_string("text.txt");
 
-    // a.input_pattern();
-    a.set_pattern(str);
+    a.input_pattern();
+    //a.set_pattern(str);
 
     // a.out_text();
 
