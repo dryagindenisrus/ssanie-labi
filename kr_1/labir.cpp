@@ -3,10 +3,6 @@ using namespace std;
 
 int a[50];//глобальный массив для хранения множителей разложения
 
-void out(int count) {
-
-}
-
 void R(int pos, long int n, int n1) {
     int i;
     for (i= n1; i*i <= n; i++) {
