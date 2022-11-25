@@ -4,6 +4,8 @@ using namespace std;
 
 
 // Driver program to test above function
+// dot -Tsvg -O file.dot
+// ./file.dot.svg
 int main()
 {
     Graph test_graph(5);

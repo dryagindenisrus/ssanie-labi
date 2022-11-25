@@ -1,0 +1,15 @@
+graph Graph_сoloring { 
+	node [shape=circle width=0.66 style=filled]
+	0 [color = blue label="0"]
+	1 [color = yellow label="1"]
+	2 [color = green label="2"]
+	3 [color = yellow label="3"]
+	4 [color = blue label="4"]
+	0 -- 1;
+	0 -- 2;
+	0 -- 3;
+	1 -- 2;
+	1 -- 4;
+	2 -- 3;
+	2 -- 4;
+}
