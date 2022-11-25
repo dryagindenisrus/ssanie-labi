@@ -45,8 +45,10 @@ bool Graph::graph_color_util(int m, int v)
 {
         // If all vertices are assigned a color then return true
         if (v == V)
+        {
             return true;
-
+        }
+            
         // Try different colors for vertex V
         for (int i = 1;i <= m; i++) 
         {
@@ -56,7 +58,9 @@ bool Graph::graph_color_util(int m, int v)
                 color[v] =i;
                 // recursion for checking other vertices
                 if (graph_color_util(m, v + 1))
+                {
                     return true;
+                }
                 // if color doesnt lead to solution
                 color[v] = 0;
             }
