@@ -150,7 +150,6 @@ void Graph::chromatic_number()
 bool Graph::rlf_coloring()
 {
     // Initialize all color values as 0. 
-    // color = new int[V];
     int m = this->chromatic_num;
     for (int i = 0; i < this->V; i++)
     {
