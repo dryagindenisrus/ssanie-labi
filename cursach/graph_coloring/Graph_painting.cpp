@@ -43,40 +43,44 @@ void Graph::addEdge(int v, int w)
 
 bool Graph::graph_color_util(int m, int v)
 {
-        // If all vertices are assigned a color then return true
-        if (v == V)
-        {
-            return true;
-        }
-            
-        // Try different colors for vertex V
-        for (int i = 1;i <= m; i++) 
-        {
-            // check for assignment safety
-            if (is_safe_to_color(v, i))
-            {
-                color[v] =i;
-                // recursion for checking other vertices
-                if (graph_color_util(m, v + 1))
-                {
-                    return true;
-                }
-                // if color doesnt lead to solution
-                color[v] = 0;
-            }
-        }
-        // If no color can be assigned to  vertex
-        return false;
+    // If all vertices are assigned a color then return true
+    if (v == V)
+    {
+        return true;
     }
+        
+    // Try different colors for vertex V
+    for (int i = 1;i <= m; i++) 
+    {
+        // check for assignment safety
+        if (is_safe_to_color(v, i))
+        {
+            color[v] =i;
+            // recursion for checking other vertices
+            if (graph_color_util(m, v + 1))
+            {
+                return true;
+            }
+            // if color doesnt lead to solution
+            color[v] = 0;
+        }
+    }
+    // If no color can be assigned to  vertex
+    return false;
+}
 
 
 bool Graph::is_safe_to_color(int v, int c)
 {
     for (int i = 0; i < V; i++)
+    {
         if (this->graph_matrix[v][i] == 1 && c == color[i])
+        {
             return false;
+        }
+    }
     return true;
-}
+};
 
 
 void Graph::add_colors_drawing()
@@ -85,7 +89,7 @@ void Graph::add_colors_drawing()
     {
         this->colored_vertices.push_back(color[i]);
     }
-}
+};
 
 
 void Graph::print_chromatic_number()
