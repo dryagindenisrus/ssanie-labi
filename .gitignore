@@ -1,3 +1,4 @@
 *.exe
 *.gch
 .vscode
+*.class

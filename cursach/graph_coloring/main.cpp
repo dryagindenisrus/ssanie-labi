@@ -17,11 +17,12 @@ int main()
     // test_graph.addEdge(2, 3);
     // test_graph.addEdge(3, 4);
     cout << "Coloring of graph" << endl;
-    // test_graph.rlf_coloring();
-    test_graph.greedy_сoloring();
+    test_graph.rlf_coloring();
+    // test_graph.greedy_сoloring();
+    test_graph.chromatic_number();
     test_graph.print_matrix();
     test_graph.draw_graph("file.dot");
-    test_graph.chromatic_number();
+    
     test_graph.print_chromatic_number();
   
     return 0;
