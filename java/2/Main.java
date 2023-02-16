@@ -1,53 +1,3 @@
-import java.util.Arrays;
-
-class Matrix {
-  private int[][] matrix;
-
-  Matrix(int size) {
-    matrix = new int[size][size];
-    for (int i = 0; i < size; i++) {
-      matrix[i][i] = 1;
-    }
-  }
-
-  public Matrix sum(Matrix b) {
-    for (int i = 0; i < matrix.length; i++) {
-      for (int j = 0; j < matrix.length; j++) {
-        matrix[i][j] += b.matrix[i][j];
-      }
-    }
-    return this;
-  }
-
-  public Matrix product(Matrix b) {
-    Matrix res = new Matrix(matrix.length);
-    for (int i = 0; i < res.matrix.length; i++) {
-      res.matrix[i][i] = 0;
-    }
-    for (int i = 0; i < matrix.length; i++) {
-      for (int j = 0; j < b.matrix.length; j++) {
-        for (int k = 0; k < b.matrix.length; k++) {
-          res.matrix[i][j] += matrix[i][k] * b.matrix[k][j];
-        }
-      }
-    }
-    return res;
-  }
-
-  public void setElement(int row, int column, int value) {
-    matrix[row][column] = value;
-  }
-
-  public int getElement(int row, int column) {
-    return matrix[row][column];
-  }
-
-  @Override
-  public String toString() {
-    return Arrays.deepToString(matrix);
-  }
-}
-
 public class Main {
   public static void main(String[] args) throws Exception {
     Matrix a = new Matrix(2);
@@ -72,5 +22,22 @@ public class Main {
 
     // summ matrix
     System.out.println("A + B = " + a.sum(b).toString());
+
+    Matrix c = new Matrix(2);
+    Matrix d = new Matrix(2);
+    c.setElement(0, 0, 1);
+    c.setElement(0, 1, 1);
+    c.setElement(1, 0, 1);
+    c.setElement(1, 1, 0);
+    d.setElement(0, 0, 1);
+    d.setElement(0, 1, 1);
+    d.setElement(1, 0, 1);
+    d.setElement(1, 1, 0);
+
+    for (int i = 0; i < 9; i++) {
+      d = d.product(c);
+    }
+
+    System.out.println("A ^ 10 = " + d);
   }
 }
