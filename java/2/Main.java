@@ -24,5 +24,22 @@ public class Main {
 
     // summ matrix
     System.out.println("A + B = " + a.sum(b).toString());
+
+    Matrix c = new Matrix(2);
+    Matrix d = new Matrix(2);
+    c.setElement(0, 0, 1);
+    c.setElement(0, 1, 1);
+    c.setElement(1, 0, 1);
+    c.setElement(1, 1, 0);
+    d.setElement(0, 0, 1);
+    d.setElement(0, 1, 1);
+    d.setElement(1, 0, 1);
+    d.setElement(1, 1, 0);
+
+    for (int i = 0; i < 9; i++) {
+      d = d.product(c);
+    }
+
+    System.out.println("A ^ 10 = " + d);
   }
 }
