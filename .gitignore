@@ -2,3 +2,6 @@
 *.gch
 .vscode
 *.class
+out/
+*.iml
+.idea/

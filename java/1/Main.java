@@ -1,5 +1,3 @@
-// Эллипс класс (метод isInside() Zoom(int factor) - фигура увеличивается на
-// сколько то)
 public class Main {
   public static void main(String[] args) throws Exception {
     Int a = new Int();

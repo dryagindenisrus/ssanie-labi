@@ -3,26 +3,26 @@ public class Main {
     Matrix a = new Matrix(2);
     Matrix b = new Matrix(2);
 
-    a.setElement(0, 0, 5);
-    a.setElement(0, 1, 2);
-    a.setElement(1, 0, 3);
-    a.setElement(1, 1, 1);
+    a.setElement(0, 0, 3);
+    a.setElement(0, 1, 1);
+    a.setElement(1, 0, 5);
+    a.setElement(1, 1, 2);
     b.setElement(0, 0, 4);
     b.setElement(0, 1, 6);
     b.setElement(1, 0, 5);
     b.setElement(1, 1, 2);
 
-    
-
     // matrix a
-    System.out.println("A = " + a.toString());
+    System.out.println("A = " + a);
+    a.doSortRows();
+    System.out.println("A = " + a);
     // matrix b
-    System.out.println("B = " + b.toString());
+    System.out.println("B = " + b);
 
-    // multyply matrix
+    // multiply matrix
     System.out.println("A * B = " + a.product(b).toString());
 
-    // summ matrix
+    // sum matrix
     System.out.println("A + B = " + a.sum(b).toString());
 
     Matrix c = new Matrix(2);
@@ -39,7 +39,6 @@ public class Main {
     for (int i = 0; i < 9; i++) {
       d = d.product(c);
     }
-
     d.doSortRows();
 
     System.out.println("A ^ 10 = " + d);
