@@ -40,6 +40,8 @@ public class Main {
       d = d.product(c);
     }
 
+    d.doSortRows();
+
     System.out.println("A ^ 10 = " + d);
   }
 }
