@@ -1,4 +1,4 @@
-package custom.matrixes;
+package org.suai.deryagin.lab3.matrixes;
 
 public class SquareMatrix extends Matrix {
     public SquareMatrix(int size) {
