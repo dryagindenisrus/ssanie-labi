@@ -3,10 +3,9 @@ public class Main {
     Int a = new Int();
     Int b = new Int();
     a.increment();
-    a.increment();
     b.add(a);
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 10; i++) {
       b.add(b);
     }
     for (int i = 0; i < 24; i++) {

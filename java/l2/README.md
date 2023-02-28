@@ -1,10 +1,10 @@
 # Lab2
 
 ### Task
-Напишите класс `Matrix`, реализующий квадратные матрицы. В нем должны быть определены
+Напишите класс `custom.matrixes.Matrix`, реализующий квадратные матрицы. В нем должны быть определены
 
 конструктор с целочисленным параметром --- размером матрицы, создающий единичную матрицу;
-методы `Matrix sum(Matrix)` и `Matrix product(Matrix)`, вычисляющие сумму и произведение матриц
+методы `custom.matrixes.Matrix sum(custom.matrixes.Matrix)` и `custom.matrixes.Matrix product(custom.matrixes.Matrix)`, вычисляющие сумму и произведение матриц
 матрицы `setElement(int row, int column, int value)` и `getElement(int row, int column)`, для 	обращения к 	элементам матрицы;
 метод 	`toString()` (Примечание: необходимо использовать `StringArray` или `StringBuilder`).
 
