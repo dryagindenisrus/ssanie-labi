@@ -1,5 +1,8 @@
-import custom.matrixes.Matrix;
-import custom.matrixes.SquareMatrix;
+package org.suai.deryagin.lab3;
+
+import org.suai.deryagin.lab3.matrixes.Matrix;
+import org.suai.deryagin.lab3.matrixes.SquareMatrix;
+import org.suai.deryagin.lab3.matrixes.AllEqualMatrix;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,6 +10,12 @@ public class Main {
         final Matrix b = new Matrix(3, 2);
         final SquareMatrix d = new SquareMatrix(2);
         final SquareMatrix c = new SquareMatrix(2);
+        final AllEqualMatrix f = new AllEqualMatrix(3, 4);
+        final AllEqualMatrix g = new AllEqualMatrix(4, 3);
+        g.setElement(2);
+        f.setElement(4);
+        System.out.println(f.product(g));
+        g.getElement(5, 5);
 
         a.setElement(0, 0, 3);
         a.setElement(0, 1, 1);
