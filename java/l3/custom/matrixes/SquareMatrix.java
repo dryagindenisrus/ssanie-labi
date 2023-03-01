@@ -16,5 +16,4 @@ public class SquareMatrix extends Matrix {
         }
         return this;
     }
-
 }

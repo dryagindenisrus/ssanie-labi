@@ -33,7 +33,7 @@ public class Main {
 
         System.out.println("C + D = " + a.sum(d));
 
-        System.out.println("C * D = " + a.product(d));
+        System.out.println("C * D = " + a.product(b));
         System.out.println("C == D: " + c.equals(d));
     }
 }
