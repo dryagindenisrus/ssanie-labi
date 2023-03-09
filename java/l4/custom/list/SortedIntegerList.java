@@ -77,4 +77,15 @@ public class SortedIntegerList {
     public String toString() {
         return list.toString();
     }
+
+
+//    dop
+    public int sum(SortedIntegerList other) {
+        int summa = 0;
+
+        summa+=this.list.stream().reduce(0, Integer::sum);
+        summa+=other.list.stream().reduce(0, Integer::sum);
+
+        return summa;
+    }
 }
