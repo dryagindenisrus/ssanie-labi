@@ -2,7 +2,7 @@ package custom.matrix;
 
 import java.util.LinkedList;
 
-public class SparseMatrix extends Matrix {
+public class SparseMatrix extends AbstractMatrix {
     private final LinkedList<SparseMatrixRow> rows;
 
     public SparseMatrix(int rows, int columns) {
@@ -54,7 +54,7 @@ public class SparseMatrix extends Matrix {
         return (SparseMatrix) super.product(matrix);
     }
 
-    public Matrix createMatrix(int rows, int columns) {
+    public AbstractMatrix createMatrix(int rows, int columns) {
         return new SparseMatrix(rows, columns);
     }
 }

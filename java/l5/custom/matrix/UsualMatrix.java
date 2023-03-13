@@ -1,6 +1,6 @@
 package custom.matrix;
 
-public class UsualMatrix extends Matrix {
+public class UsualMatrix extends AbstractMatrix {
     private final double[][] matrix;
 
     public UsualMatrix(int size) {
@@ -29,7 +29,7 @@ public class UsualMatrix extends Matrix {
         return (UsualMatrix) super.product(matrix);
     }
 
-    public Matrix createMatrix(int rows, int columns) {
+    public AbstractMatrix createMatrix(int rows, int columns) {
         return new UsualMatrix(rows, columns);
     }
 }

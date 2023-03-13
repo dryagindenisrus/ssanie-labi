@@ -1,11 +1,11 @@
 package custom.matrix;
 
-public abstract class Matrix implements IMatrix {
+public abstract class AbstractMatrix implements IMatrix {
 
     protected int rows;
     protected int columns;
 
-    public Matrix(int rows, int columns) {
+    public AbstractMatrix(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
     }
@@ -43,12 +43,12 @@ public abstract class Matrix implements IMatrix {
         }
     }
 
-    public Matrix add(Matrix matrix) {
+    public AbstractMatrix add(AbstractMatrix matrix) {
         if (getRows() != matrix.getRows() || getColumns() != matrix.getColumns()) {
             throw new IllegalArgumentException("Matrix sizes are not equal");
         }
 
-        Matrix result = createMatrix(getRows(), getColumns());
+        AbstractMatrix result = createMatrix(getRows(), getColumns());
 
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getColumns(); j++) {
@@ -59,12 +59,12 @@ public abstract class Matrix implements IMatrix {
         return result;
     }
 
-    public Matrix product(Matrix matrix) {
+    public AbstractMatrix product(AbstractMatrix matrix) {
         if (getColumns() != matrix.getRows()) {
             throw new IllegalArgumentException("Matrix sizes are not equal");
         }
 
-        Matrix result = createMatrix(getRows(), matrix.getColumns());
+        AbstractMatrix result = createMatrix(getRows(), matrix.getColumns());
 
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < matrix.getColumns(); j++) {
@@ -102,7 +102,7 @@ public abstract class Matrix implements IMatrix {
             return false;
         }
 
-        if (!(obj instanceof Matrix matrix)) {
+        if (!(obj instanceof AbstractMatrix matrix)) {
             return false;
         }
 
@@ -120,5 +120,5 @@ public abstract class Matrix implements IMatrix {
 
         return true;
     }
-    protected abstract Matrix createMatrix(int rows, int columns);
+    protected abstract AbstractMatrix createMatrix(int rows, int columns);
 }

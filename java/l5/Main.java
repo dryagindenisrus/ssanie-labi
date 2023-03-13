@@ -2,8 +2,8 @@ import custom.matrix.*;
 
 public class Main {
     public static void main(String[] args) {
-        final int matrixSize = 300;
-        final int elementsCount = 300;
+        final int matrixSize = 1000;
+        final int elementsCount = 1000;
 
         SquareMatrix[] squareMatrices = new SquareMatrix[4];
         SparseMatrix[] sparseMatrices = new SparseMatrix[4];
@@ -34,7 +34,7 @@ public class Main {
 
         // проверка на равенство
         System.out.print("square matrix sum equals sparse matrix sum: ");
-        System.out.println(squareMatrices[2].equals((Matrix) sparseMatrices[2]));
+        System.out.println(squareMatrices[2].equals((AbstractMatrix) sparseMatrices[2]));
 
         // умножение
         System.out.print("multiplying square matrices... ");
@@ -47,6 +47,6 @@ public class Main {
 
         // проверка на равенство
         System.out.print("square matrix product equals sparse matrix product: ");
-        System.out.println(squareMatrices[3].equals((Matrix) sparseMatrices[3]));
+        System.out.println(squareMatrices[3].equals((AbstractMatrix) sparseMatrices[3]));
     }
 }

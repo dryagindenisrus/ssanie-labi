@@ -13,7 +13,7 @@ public class SquareMatrix extends UsualMatrix {
         return (SquareMatrix) super.product(matrix);
     }
 
-    public Matrix createMatrix(int rows, int columns) {
+    public AbstractMatrix createMatrix(int rows, int columns) {
         return new SquareMatrix(rows);
     }
 }
