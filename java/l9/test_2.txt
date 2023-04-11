@@ -1,0 +1,3 @@
+If you’re interested in playing around with React,
+you can use an online code playground.
+Try a Hello World template on CodePen, CodeSandbox, or Stackblitz.

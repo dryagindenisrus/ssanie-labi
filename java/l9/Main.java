@@ -1,44 +1,26 @@
 import custom.people.People;
+import custom.text.AnaliticText;
+import static custom.text.AnaliticText.analyze;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
-    static final People a = new People(14, "white", "CJ");
-    static final People b = new People(14, "nigger", "Antoha");
 
-    public static void main(String[] args) {
-        ThreadDemo1 T1 = new ThreadDemo1();
-        ThreadDemo2 T2 = new ThreadDemo2();
-        T1.start();
-        T2.start();
-    }
+    public static void main(String[] args) throws IOException, InterruptedException {
 
-    private static class ThreadDemo1 extends Thread {
-        public void run() {
-            synchronized (a) {
-                a.yearLater();
-                try {
-                    ThreadDemo1.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException("Thread can not work");
-                }
-                synchronized (b) {
-                    a.soitie(b);
-                }
-            }
-        }
-    }
-    private static class ThreadDemo2 extends Thread {
-        public void run() {
-            synchronized (b) {
-                b.yearLater();
-                try {
-                    ThreadDemo2.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException("Thread can not work");
-                }
-                synchronized (a) {
-                    b.soitie(a);
-                }
-            }
+        String[] z = {
+            "C:\\Users\\dryag\\Documents\\ssanie-labi\\java\\l9\\test_1.txt",
+            "C:\\Users\\dryag\\Documents\\ssanie-labi\\java\\l9\\test_2.txt",
+            "C:\\Users\\dryag\\Documents\\ssanie-labi\\java\\l9\\test_3.txt",
+            "C:\\Users\\dryag\\Documents\\ssanie-labi\\java\\l9\\test_4.txt"
+        };
+
+        AnaliticText a = new AnaliticText(z);
+        a.goAnalyze();
+        TimeUnit.SECONDS.sleep(1);
+
+        for (java.util.HashMap<String, Integer> stringIntegerHashMap : analyze) {
+            System.out.println(stringIntegerHashMap);
         }
     }
 }

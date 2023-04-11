@@ -1,0 +1,4 @@
+As your application grows, you might want to consider a more integrated setup.
+There are several JavaScript toolchains we recommend for larger
+applications. Each of them can work with little to no configuration
+and lets you take full advantage of the rich React ecosystem. Learn how.
