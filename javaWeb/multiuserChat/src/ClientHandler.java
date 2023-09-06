@@ -13,7 +13,7 @@ public class ClientHandler implements Runnable {
     private String clientUsername;
     private int clientNumber;
 
-    private String[] colors = {
+    private final String[] colors = {
             "\u001B[31m",
             "\u001B[32m",
             "\u001B[33m",
@@ -30,7 +30,7 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             this.clientNumber = clientNumber;
             clientHandlers.add(this);
-            sendMessageAll("\u001B[0m\u001B[44m SERVER:: " + clientUsername + " enter. \u001B[0m");
+            broadcastMessage("\u001B[0m\u001B[44m SERVER:: " + clientUsername + " enter. \u001B[0m", clientHandlers);
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
@@ -44,10 +44,18 @@ public class ClientHandler implements Runnable {
     public void run() {
         String messageFromClient;
 
+        if (socket.isConnected()) {
+
+        }
+
         while (socket.isConnected()) {
             try {
                 messageFromClient = bufferedReader.readLine();
-                broadcastMessage(messageFromClient);
+                System.out.println("MESSAGE FROM CLIENT: " + messageFromClient);
+                this.bufferedWriter.write(messageFromClient);
+                this.bufferedWriter.newLine();
+                this.bufferedWriter.flush();
+                broadcastMessage(messageFromClient, clientHandlers);
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
@@ -55,42 +63,12 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void broadcastMessage(String messageToSend) {
-        if (messageToSend.split("::")[1].startsWith("@")) {
-            List<ClientHandler> filtered = clientHandlers.stream()
-                    .filter(clientHandler -> clientHandler.getUsername().equals(messageToSend.split("::")[1].substring(1).split(" ")[0]))
-                    .toList();
-            sendMessage(messageToSend.split("::")[0], messageToSend.split("::")[1], filtered);
-        } else {
-            sendMessageAll(messageToSend);
-        }
-//        Server.printToConsole(messageToSend);
-//        LOGS to server
-    }
-
-    public void sendMessageAll(String messageToSend) {
-        for (ClientHandler clientHandler: clientHandlers) {
-            try {
-                if (!clientHandler.clientUsername.equals(clientUsername)) {
-                    String messageForSending = colors[clientNumber % colors.length] +
-                            messageToSend.split("::")[0] + ": \u001B[0m" +
-                            messageToSend.split("::")[1];
-                    clientHandler.bufferedWriter.write(messageForSending);
-                    clientHandler.bufferedWriter.newLine();
-                    clientHandler.bufferedWriter.flush();
-                }
-            } catch (IOException e) {
-                closeEverything(socket, bufferedReader, bufferedWriter);
-            }
-        }
-    }
-
-    public void sendMessage(String initiator, String messageToSend, List<ClientHandler> clients) {
+    public void broadcastMessage(String messageToSend, ArrayList<ClientHandler> clients) {
         if (!clients.isEmpty()) {
             for (ClientHandler clientHandler: clients) {
                 try {
                     if (!clientHandler.clientUsername.equals(clientUsername)) {
-                        String messageForSending = colors[clientNumber % 7] + initiator + "-> you: \u001B[0m" + messageToSend;
+                        String messageForSending = colors[clientNumber % 7] + this.clientUsername + "-> you: \u001B[0m" + messageToSend;
                         clientHandler.bufferedWriter.write(messageForSending);
                         clientHandler.bufferedWriter.newLine();
                         clientHandler.bufferedWriter.flush();
@@ -100,12 +78,11 @@ public class ClientHandler implements Runnable {
                 }
             }
         }
-
     }
 
     public void removeClientHandler() {
         clientHandlers.remove(this);
-        sendMessageAll("\u001B[0m\u001B[44m SERVER:: " + clientUsername + " left. \u001B[0m");
+        broadcastMessage("\u001B[0m\u001B[44m SERVER:: " + clientUsername + " left. \u001B[0m", clientHandlers);
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {

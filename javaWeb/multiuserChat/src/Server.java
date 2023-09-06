@@ -36,10 +36,6 @@ public class Server {
         }
     }
 
-    public static void printToConsole(String message) {
-        System.out.println(message);
-    }
-
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(4000);
         Server server = new Server(serverSocket);

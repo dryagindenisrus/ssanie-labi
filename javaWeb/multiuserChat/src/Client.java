@@ -80,7 +80,7 @@ public class Client {
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost", 4000);
         Client client = new Client(socket, username);
-        System.out.println("\u001B[34;43m  ♂ Welcome to the club, body ♂  \u001B[0m\n");
+        System.out.println("\u001B[34;43m Client enering... \u001B[0m");
         System.out.println("================================");
         client.listenForMessage();
         client.sendMessage();
