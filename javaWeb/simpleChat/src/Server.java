@@ -1,78 +1,88 @@
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Server {
-    private static DatagramSocket socket;
-    private static InetAddress clientAddress;
-    private static int clientPort;
-    private static String userName = "";
-    private static boolean isClientConnected = false;
 
-    private static List<InetAddress> clientAddresses = new ArrayList<>();
-    private static List<Integer> clientPorts = new ArrayList<>();
+    private final DatagramSocket datagramSocket;
+    private byte[] buffer = new byte[256];
+    private InetAddress inetClientAddress;
+    private int clientPort;
+    private String username = "Server";
 
-    public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Использование: java Server <порт-сервера>");
-            return;
-        }
-
-        int serverPort = Integer.parseInt(args[0]);
-
-        try {
-            socket = new DatagramSocket(serverPort);
-            System.out.println("Сервер запущен на порту " + serverPort);
-
-            while (true) {
-                byte[] receiveData = new byte[1024];
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                socket.receive(receivePacket);
-
-                String message = new String(receivePacket.getData(), 0, receivePacket.getLength(), "UTF-8");
-                clientAddress = receivePacket.getAddress();
-                clientPort = receivePacket.getPort();
-
-                processMessage(message);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            socket.close();
-        }
+    public Server(DatagramSocket datagramSocket) {
+        this.datagramSocket = datagramSocket;
     }
 
-    private static void processMessage(String message) throws IOException {
-        if (message.startsWith("@name")) {
-            userName = message.split(" ")[1];
-            isClientConnected = true;
-            System.out.println("Вы присоединились к чату как " + userName);
-            broadcast("Пользователь " + userName + " присоединился к чату.");
-        } else if (message.startsWith("@quit")) {
-            isClientConnected = false;
-            System.out.println(userName + " покинул чат.");
-            broadcast("Пользователь " + userName + " покинул чат.");
-            userName = "";
-        } else {
-            if (isClientConnected) {
-                System.out.println(userName + ": " + message);
-                broadcast(userName + ": " + message);
-            } else {
-                System.out.println("Пожалуйста, используйте команду '@name' для установки имени.");
+    public void receiveMessages() {
+        while (true) {
+            try {
+                DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
+
+                datagramSocket.receive(datagramPacket);
+                this.inetClientAddress = datagramPacket.getAddress();
+                this.clientPort = datagramPacket.getPort();
+
+                System.out.println(this.inetClientAddress + ":" + this.clientPort);
+                String messageFromClient = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
+                System.out.println(messageFromClient);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
             }
         }
     }
 
-    private static void broadcast(String message) throws IOException {
-        if (isClientConnected) {
-            byte[] sendData = message.getBytes("UTF-8");
-            for (int i = 0; i < clientAddresses.size(); i++) {
-                InetAddress address = clientAddresses.get(i);
-                int port = clientPorts.get(i);
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, port);
-                socket.send(sendPacket);
+    public void sendMessages() {
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                String messageToClient = scanner.nextLine();
+
+                this.buffer = messageToClient.getBytes();
+
+                DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
+                InetAddress clientAddress = this.inetClientAddress;
+                String messageFromClient = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
+
+
+
+                if (Objects.equals(messageToClient.split(" ")[0], "@name")) {
+                    this.username = messageToClient.split(" ")[1];
+                } else if (Objects.equals(messageToClient.split(" ")[0], "@quit")) {
+                    System.out.println("\u001B[0m\u001B[44m SERVER will be shutdown... \u001B[0m");
+                    System.exit(130);
+                } else {
+                    messageToClient = this.username + ": " + messageFromClient;
+                    byte[] messageBytes = messageToClient.getBytes();
+                    DatagramPacket replyPacket = new DatagramPacket(
+                            messageBytes,
+                            messageBytes.length,
+                            this.inetClientAddress,
+                            this.clientPort
+                    );
+                    datagramSocket.send(replyPacket);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) throws SocketException {
+        DatagramSocket datagramSocket = new DatagramSocket(1234);
+        Server server = new Server(datagramSocket);
+        System.out.println("Server is running...");
+
+        Thread sendThread = new Thread(server::sendMessages);
+        sendThread.start();
+
+        // Запускаем поток для приема сообщений
+        server.receiveMessages();
     }
 }
