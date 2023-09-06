@@ -6,6 +6,8 @@ import java.net.SocketException;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
+
 public class Server {
 
     private final DatagramSocket datagramSocket;
@@ -27,7 +29,6 @@ public class Server {
                 this.inetClientAddress = datagramPacket.getAddress();
                 this.clientPort = datagramPacket.getPort();
 
-                System.out.println(this.inetClientAddress + ":" + this.clientPort);
                 String messageFromClient = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
                 System.out.println(messageFromClient);
 
@@ -55,10 +56,14 @@ public class Server {
                 if (Objects.equals(messageToClient.split(" ")[0], "@name")) {
                     this.username = messageToClient.split(" ")[1];
                 } else if (Objects.equals(messageToClient.split(" ")[0], "@quit")) {
+                    messageToClient = "\u001B[0m\u001B[44m SERVER will be shutdown... \u001B[0m";
+                    buffer = messageToClient.getBytes();
+                    DatagramPacket sendPacket = new DatagramPacket(buffer, buffer.length, this.inetClientAddress, this.clientPort);
+                    datagramSocket.send(sendPacket);
                     System.out.println("\u001B[0m\u001B[44m SERVER will be shutdown... \u001B[0m");
                     System.exit(130);
                 } else {
-                    messageToClient = this.username + ": " + messageFromClient;
+                    messageToClient = "\033[92m" + this.username + ":\033[39m " + messageFromClient;
                     byte[] messageBytes = messageToClient.getBytes();
                     DatagramPacket replyPacket = new DatagramPacket(
                             messageBytes,
@@ -75,14 +80,25 @@ public class Server {
     }
 
     public static void main(String[] args) throws SocketException {
-        DatagramSocket datagramSocket = new DatagramSocket(1234);
-        Server server = new Server(datagramSocket);
-        System.out.println("Server is running...");
+        if (args.length != 1) {
+            System.out.println("\033[101mERROR: missing arguments:\033[49m --port");
+            System.exit(-1);
+        } else {
+            try {
+                DatagramSocket datagramSocket = new DatagramSocket(parseInt(args[0]));
+                Server server = new Server(datagramSocket);
+                System.out.println("Server is running...");
 
-        Thread sendThread = new Thread(server::sendMessages);
-        sendThread.start();
+                Thread sendThread = new Thread(server::sendMessages);
+                sendThread.start();
 
-        // Запускаем поток для приема сообщений
-        server.receiveMessages();
+                // Запускаем поток для приема сообщений
+                server.receiveMessages();
+            } catch (NumberFormatException e) {
+                System.out.println("\033[101mERROR: invalid arguments:\033[49m --port");
+                System.exit(-1);
+            }
+
+        }
     }
 }
