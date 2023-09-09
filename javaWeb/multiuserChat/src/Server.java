@@ -2,10 +2,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static java.lang.Integer.parseInt;
+
 public class Server {
 
     private final ServerSocket serverSocket;
-    private int clientCounter = 0;
+    private int clientCounter = 1;
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
@@ -37,8 +39,21 @@ public class Server {
     }
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(4000);
-        Server server = new Server(serverSocket);
-        server.startServer();
+
+        if (args.length != 1) {
+            System.out.println("\033[101mERROR: missing arguments:\033[49m --port");
+            System.exit(-1);
+        } else {
+            try {
+                ServerSocket serverSocket = new ServerSocket(parseInt(args[0]));
+                Server server = new Server(serverSocket);
+                System.out.println("Server is running...");
+                server.startServer();
+            } catch (NumberFormatException e) {
+                System.out.println("\033[101mERROR: invalid arguments:\033[49m --port");
+                System.exit(-1);
+            }
+
+        }
     }
 }

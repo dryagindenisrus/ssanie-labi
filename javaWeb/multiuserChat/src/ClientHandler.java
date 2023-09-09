@@ -1,98 +1,190 @@
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClientHandler implements Runnable {
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private Socket socket;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
     private String clientUsername;
-    private int clientNumber;
+    private int clientId;
 
-    private final String[] colors = {
-            "\u001B[31m",
-            "\u001B[32m",
-            "\u001B[33m",
-            "\u001B[34m",
-            "\u001B[35m",
-            "\u001B[36m"
-    };
 
-    public ClientHandler(Socket socket, int clientNumber) {
+    public ClientHandler(Socket socket, int clientId) {
         try {
             this.socket = socket;
-            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
-            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-            this.clientUsername = bufferedReader.readLine();
-            this.clientNumber = clientNumber;
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+            this.clientId = clientId;
+            this.clientUsername = "anonymous" + this.clientId;
             clientHandlers.add(this);
-            broadcastMessage("\u001B[0m\u001B[44m SERVER:: " + clientUsername + " enter. \u001B[0m", clientHandlers);
+
+            Message messageServer = new Message(
+                    "SERVER",
+                    "@enter " + clientUsername,
+                    0
+            );
+            broadcastMessage(messageServer);
         } catch (IOException e) {
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(socket, objectOutputStream, objectInputStream);
+            System.out.println("\033[93mWARNING: " + this.socket.getRemoteSocketAddress() + " has invalid client\033[39m");
         }
     }
 
-    private String getUsername() {
-        return this.clientUsername;
-    }
 
     @Override
     public void run() {
-        String messageFromClient;
+        Message messageFromClient;
 
         if (socket.isConnected()) {
-
+            try {
+                Message initMessage = new Message(
+                        "SERVER",
+                        "@init:" + this.clientUsername + ":" + this.clientId,
+                        0
+                );
+                this.objectOutputStream.writeObject(initMessage);
+                this.objectOutputStream.flush();
+            } catch (IOException e) {
+                System.out.println("\033[93mWARNING: " + this.socket.getRemoteSocketAddress() + " has invalid client\033[39m");
+                closeEverything(socket, objectOutputStream, objectInputStream);
+            }
         }
 
         while (socket.isConnected()) {
             try {
-                messageFromClient = bufferedReader.readLine();
-                System.out.println("MESSAGE FROM CLIENT: " + messageFromClient);
-                this.bufferedWriter.write(messageFromClient);
-                this.bufferedWriter.newLine();
-                this.bufferedWriter.flush();
-                broadcastMessage(messageFromClient, clientHandlers);
-            } catch (IOException e) {
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                messageFromClient = (Message) objectInputStream.readObject();
+                System.out.println(messageFromClient);
+                if (messageFromClient.usernameId == 0) {
+                    System.out.println("\033[91mWARNING: " + this.socket.getRemoteSocketAddress() + " has invalid ID\033[39m");
+                    closeEverything(socket, objectOutputStream, objectInputStream);
+                }
+                broadcastMessage(messageFromClient);
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("\033[93mWARNING: " + this.socket.getRemoteSocketAddress() + " has invalid client\033[39m");
+                closeEverything(socket, objectOutputStream, objectInputStream);
                 break;
             }
         }
     }
 
-    public void broadcastMessage(String messageToSend, ArrayList<ClientHandler> clients) {
-        if (!clients.isEmpty()) {
-            for (ClientHandler clientHandler: clients) {
+
+    public void broadcastMessage(Message messageToSend) {
+        ArrayList<ClientHandler> clientsForSending = clientHandlers;
+        // QUIT command
+        if (messageToSend.messageText.equals("@quit")) {
+            Message enterMessage = new Message(
+                    "SERVER",
+                    "@left:" + this.clientUsername,
+                    0
+            );
+            for (ClientHandler clientHandler: clientsForSending) {
                 try {
-                    if (!clientHandler.clientUsername.equals(clientUsername)) {
-                        String messageForSending = colors[clientNumber % 7] + this.clientUsername + "-> you: \u001B[0m" + messageToSend;
-                        clientHandler.bufferedWriter.write(messageForSending);
-                        clientHandler.bufferedWriter.newLine();
-                        clientHandler.bufferedWriter.flush();
-                    }
+                    clientHandler.objectOutputStream.writeObject(enterMessage);
+                    clientHandler.objectOutputStream.flush();
                 } catch (IOException e) {
-                    closeEverything(socket, bufferedReader, bufferedWriter);
+                    closeEverything(socket, objectOutputStream, objectInputStream);
+                }
+            }
+            closeEverything(socket, objectOutputStream, objectInputStream);
+            // NAME command
+        } else if (messageToSend.messageText.startsWith("@name ")) {
+            this.clientUsername = messageToSend.messageText.split(" ")[1];
+            Message initMessage = new Message(
+                    "SERVER",
+                    "@name:" + this.clientUsername,
+                    0
+            );
+            try {
+                this.objectOutputStream.writeObject(initMessage);
+                this.objectOutputStream.flush();
+            } catch (IOException e) {
+                closeEverything(socket, objectOutputStream, objectInputStream);
+            }
+        } else if (messageToSend.messageText.startsWith("@enter ")) {
+            this.clientUsername = messageToSend.messageText.split(" ")[1];
+            Message enterMessage = new Message(
+                    "SERVER",
+                    "@enter:" + this.clientUsername,
+                    0
+            );
+            for (ClientHandler clientHandler: clientsForSending) {
+                try {
+                    clientHandler.objectOutputStream.writeObject(enterMessage);
+                    clientHandler.objectOutputStream.flush();
+                } catch (IOException e) {
+                    closeEverything(socket, objectOutputStream, objectInputStream);
+                }
+            }
+        } else {
+            Message message = new Message(
+                    this.clientUsername,
+                    messageToSend.messageText,
+                    this.clientId
+            );
+            if (messageToSend.messageText.startsWith("@")) {
+                String reciender = messageToSend.messageText.split(" ")[0].substring(1);
+                int findedUsernames = 0;
+                for (ClientHandler clientHandler: clientsForSending) {
+                    try {
+                        if (!clientHandler.clientUsername.equals(clientUsername) &&
+                                clientHandler.clientUsername.equals(reciender)
+                        ) {
+                            findedUsernames++;
+                            clientHandler.objectOutputStream.writeObject(message);
+                            clientHandler.objectOutputStream.flush();
+                        }
+                    } catch (IOException e) {
+                        closeEverything(socket, objectOutputStream, objectInputStream);
+                    }
+                }
+                if (findedUsernames == 0) {
+                    for (ClientHandler clientHandler: clientsForSending) {
+                        try {
+                            if (!clientHandler.clientUsername.equals(clientUsername)) {
+                                clientHandler.objectOutputStream.writeObject(message);
+                                clientHandler.objectOutputStream.flush();
+                            }
+                        } catch (IOException e) {
+                            closeEverything(socket, objectOutputStream, objectInputStream);
+                        }
+                    }
+                }
+            } else {
+                for (ClientHandler clientHandler: clientsForSending) {
+                    try {
+                        if (!clientHandler.clientUsername.equals(clientUsername)) {
+                            clientHandler.objectOutputStream.writeObject(message);
+                            clientHandler.objectOutputStream.flush();
+                        }
+                    } catch (IOException e) {
+                        closeEverything(socket, objectOutputStream, objectInputStream);
+                    }
                 }
             }
         }
     }
 
+
     public void removeClientHandler() {
         clientHandlers.remove(this);
-        broadcastMessage("\u001B[0m\u001B[44m SERVER:: " + clientUsername + " left. \u001B[0m", clientHandlers);
     }
 
-    public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+
+    public void closeEverything(
+            Socket socket,
+            ObjectOutputStream objectOutputStream,
+            ObjectInputStream objectInputStream
+    ) {
         removeClientHandler();
         try {
-            if (bufferedReader != null) {
-                bufferedReader.close();
+            if (objectOutputStream != null) {
+                objectOutputStream.close();
             }
-            if (bufferedWriter != null) {
-                bufferedWriter.close();
+            if (objectInputStream != null) {
+                objectInputStream.close();
             }
             if (socket != null) {
                 socket.close();
