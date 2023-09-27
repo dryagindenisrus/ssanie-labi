@@ -49,9 +49,8 @@ public class Client {
                     objectOutputStream.writeObject(messageToSend);
                     objectOutputStream.flush();
                     System.exit(130);
-                } else if (messageText.equals("@ban")) {
+                } else if (messageText.startsWith("@ban")) {
                     this.banned.add(messageText.split(" ")[1]);
-                    System.out.println(banned.get(0));
                 } else {
                     Message messageToSend = new Message(
                             this.username,
@@ -99,7 +98,7 @@ public class Client {
                                             " enter. \u001B[0m"
                             );
                         } else if (this.banned.contains(receivedMessage.username)) {
-                            continue;
+                            break;
                             // короче проверить есить ли имя отправителя в забаненных и не принимать сообщение и не выводить
                         } else if (receivedMessage.messageText.startsWith("@left")) {
                             System.out.println(
@@ -119,11 +118,14 @@ public class Client {
                                             receivedMessage.messageText.substring(this.username.length()+1)
                             );
                         } else {
-                            System.out.println(
-                                    colors[receivedMessage.usernameId % 6] +
-                                            receivedMessage.username + ":\033[39m " +
-                                            receivedMessage.messageText
-                            );
+                            if (!this.banned.contains(receivedMessage.username)) {
+                                System.out.println(
+                                        colors[receivedMessage.usernameId % 6] +
+                                                receivedMessage.username + ":\033[39m " +
+                                                receivedMessage.messageText
+                                );
+                            }
+
                         }
                     }
                 } catch (IOException e) {
