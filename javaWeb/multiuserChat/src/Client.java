@@ -51,6 +51,7 @@ public class Client {
                     System.exit(130);
                 } else if (messageText.equals("@ban")) {
                     this.banned.add(messageText.split(" ")[1]);
+                    System.out.println(banned.get(0));
                 } else {
                     Message messageToSend = new Message(
                             this.username,
