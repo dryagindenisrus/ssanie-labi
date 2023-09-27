@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -9,6 +10,7 @@ public class Client {
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     private String username;
+    private ArrayList<String> banned;
     private int userId = 1;
 
     private final String[] colors = {
@@ -25,6 +27,7 @@ public class Client {
             this.socket = socket;
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+            this.banned = new ArrayList<String>();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,6 +49,8 @@ public class Client {
                     objectOutputStream.writeObject(messageToSend);
                     objectOutputStream.flush();
                     System.exit(130);
+                } else if (messageText.equals("@ban")) {
+                    this.banned.add(messageText.split(" ")[1]);
                 } else {
                     Message messageToSend = new Message(
                             this.username,
@@ -92,6 +97,9 @@ public class Client {
                                             receivedMessage.messageText.split(":")[1] +
                                             " enter. \u001B[0m"
                             );
+                        } else if (this.banned.contains(receivedMessage.username)) {
+                            continue;
+                            // короче проверить есить ли имя отправителя в забаненных и не принимать сообщение и не выводить
                         } else if (receivedMessage.messageText.startsWith("@left")) {
                             System.out.println(
                                     "\033[97m\033[103m " +

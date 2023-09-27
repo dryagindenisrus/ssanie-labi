@@ -19,6 +19,7 @@ public class ClientHandler implements Runnable {
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
             this.clientId = clientId;
             this.clientUsername = "anonymous" + this.clientId;
+
             clientHandlers.add(this);
 
             Message messageServer = new Message(
