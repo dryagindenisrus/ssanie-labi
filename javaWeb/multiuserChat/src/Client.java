@@ -33,7 +33,6 @@ public class Client {
         }
     }
 
-
     public void sendMessage() {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -44,8 +43,7 @@ public class Client {
                     Message messageToSend = new Message(
                             this.username,
                             "@quit",
-                            this.userId
-                    );
+                            this.userId);
                     objectOutputStream.writeObject(messageToSend);
                     objectOutputStream.flush();
                     System.exit(130);
@@ -55,18 +53,16 @@ public class Client {
                     Message messageToSend = new Message(
                             this.username,
                             messageText,
-                            this.userId
-                    );
+                            this.userId);
                     objectOutputStream.writeObject(messageToSend);
                     objectOutputStream.flush();
                 }
             }
 
         } catch (IOException e) {
-//            closeEverything(socket, objectOutputStream, objectInputStream);
+            // closeEverything(socket, objectOutputStream, objectInputStream);
         }
     }
-
 
     public void listenForMessage() {
         new Thread(() -> {
@@ -95,35 +91,34 @@ public class Client {
                                             receivedMessage.username +
                                             " " +
                                             receivedMessage.messageText.split(":")[1] +
-                                            " enter. \u001B[0m"
-                            );
+                                            " enter. \u001B[0m");
                         } else if (this.banned.contains(receivedMessage.username)) {
                             break;
-                            // короче проверить есить ли имя отправителя в забаненных и не принимать сообщение и не выводить
+                            // короче проверить есить ли имя отправителя в забаненных и не принимать
+                            // сообщение и не выводить
                         } else if (receivedMessage.messageText.startsWith("@left")) {
                             System.out.println(
                                     "\033[97m\033[103m " +
                                             receivedMessage.username +
                                             ": " +
                                             receivedMessage.messageText.split(":")[1] +
-                                            " left. \u001B[0m\033[49m"
-                            );
+                                            " left. \u001B[0m\033[49m");
                         }
                     } else {
                         if (receivedMessage.messageText.startsWith("@" + this.username)) {
-                            System.out.println(
-                                    colors[receivedMessage.usernameId % 6] +
-                                            receivedMessage.username +
-                                            "(-> you): \033[39m" +
-                                            receivedMessage.messageText.substring(this.username.length()+1)
-                            );
+                            if (!this.banned.contains(receivedMessage.username)) {
+                                System.out.println(
+                                        colors[receivedMessage.usernameId % 6] +
+                                                receivedMessage.username +
+                                                "(-> you): \033[39m" +
+                                                receivedMessage.messageText.substring(this.username.length() + 1));
+                            }
                         } else {
                             if (!this.banned.contains(receivedMessage.username)) {
                                 System.out.println(
                                         colors[receivedMessage.usernameId % 6] +
                                                 receivedMessage.username + ":\033[39m " +
-                                                receivedMessage.messageText
-                                );
+                                                receivedMessage.messageText);
                             }
 
                         }
@@ -131,12 +126,14 @@ public class Client {
                 } catch (IOException e) {
                     closeEverything(socket, objectOutputStream, objectInputStream);
                     break;
-                } catch (ClassNotFoundException e) {}
+                } catch (ClassNotFoundException e) {
+                }
             }
         }).start();
     }
 
-    public void closeEverything(Socket socket, ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
+    public void closeEverything(Socket socket, ObjectOutputStream objectOutputStream,
+            ObjectInputStream objectInputStream) {
         try {
             if (objectOutputStream != null) {
                 objectOutputStream.close();
@@ -151,7 +148,6 @@ public class Client {
             e.printStackTrace();
         }
     }
-
 
     public static void main(String[] args) throws IOException {
 
