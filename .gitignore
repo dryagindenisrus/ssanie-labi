@@ -1,7 +1,36 @@
-*.exe
-*.gch
-.vscode
-*.class
+# Gradle
+.gradle/
+build/
 out/
-*.iml
+
+# IDE
 .idea/
+*.iml
+.vscode
+
+
+# Java
+*.class
+
+# C / C++
+*.exe
+out/
+*.gch
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Tomcat
+apache-tomcat
+*.log
+*.war
+*.jar
+/work/
+/temp/
+/run/
+
+# Other
+.DS_Store
+Thumbs.db

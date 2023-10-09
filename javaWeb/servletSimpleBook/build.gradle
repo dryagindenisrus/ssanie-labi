@@ -1,11 +1,10 @@
 plugins {
-    id 'java'
-    id 'war'
+    id("java")
+    id("war")
     id("com.bmuschko.tomcat") version "2.7.0"
 }
 
 compileJava.options.encoding = 'UTF-8'
-
 
 repositories {
     mavenCentral()
@@ -16,10 +15,12 @@ dependencies {
 }
 
 war {
-    archiveFileName = 'my-servlet-app.war'
+    archiveFileName = 'servlet-simple-book.war'
     webAppDirName = 'src/main/webapp'
+    from('src/main/resources/static') {
+        into 'static'
+    }
 }
-
 
 tomcat {
     httpProtocol = 'org.apache.coyote.http11.Http11NioProtocol'
