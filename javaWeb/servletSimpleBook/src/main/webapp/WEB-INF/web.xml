@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>SimpleBookServlet</servlet-name>
-        <servlet-class>com.servletbook.SimpleBookServlet</servlet-class>
+        <servlet-class>com.servletbook.S</servlet-class>
     </servlet>
 
     <servlet-mapping>

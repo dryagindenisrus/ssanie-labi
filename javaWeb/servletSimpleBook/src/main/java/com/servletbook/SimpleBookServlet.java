@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("")
+@WebServlet("/*")
 public class SimpleBookServlet extends HttpServlet {
 
     private Notebook notebook;
@@ -27,7 +27,8 @@ public class SimpleBookServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
-        notebook.addOrUpdateNote("Title", "Value1");
+        String value = request.getParameter("value");
+        notebook.addOrUpdateNote(name, value);
 
         request.setAttribute("notes", notebook.getAllNotes());
 
@@ -45,10 +46,12 @@ public class SimpleBookServlet extends HttpServlet {
         if (uri.equals("/servlet-simple-book/action/add")) {
             String name = request.getParameter("name");
             notebook.addOrUpdateNote("Title", name);
-            response.encodeRedirectURL("");
+            response.sendRedirect("/home");
         } else if (uri.equals("/servlet-simple-book/action/reset")) {
             notebook.clearAllNotes();
-            response.encodeRedirectURL("");
+            response.sendRedirect("/home");
+        } else if (uri.equals("/static/")) {
+            return ;
         }
 
         request.setAttribute("notes", notebook.getAllNotes());

@@ -37,8 +37,6 @@
             <%
                 }
             } else {
-                    response.getWriter().write(request.getAttribute("notes").toString());
-                    out.print(request.getAttribute("notes").toString());
             %>
             <p>Nothing there's</p>
             <%
@@ -56,7 +54,12 @@
         <div class="form-group">
             <label for="name">Name:</label>
             <input class="form-control" type="text" id="name" name="name" required placeholder="Enter name">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <small id="nameHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="tel">Value:</label>
+            <input class="form-control" type="text" id="tel" name="Value" required placeholder="Enter name">
+            <small id="telHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>
