@@ -1,4 +1,4 @@
-plugins {
+    plugins {
     id("java")
     id("war")
     id("com.bmuschko.tomcat") version "2.7.0"
