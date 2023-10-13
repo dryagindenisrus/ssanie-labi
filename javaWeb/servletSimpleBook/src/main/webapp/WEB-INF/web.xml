@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>SimpleBookServlet</servlet-name>
-        <servlet-class>com.servletbook.S</servlet-class>
+        <servlet-class>com.servletbook.SimpleBookServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SimpleBookServlet</servlet-name>
@@ -17,4 +17,21 @@
         <url-pattern>/static/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AddActionServlet</servlet-name>
+        <servlet-class>com.servletbook.actions.AddActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddActionServlet</servlet-name>
+        <url-pattern>/simple-book-servlet/actions/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ResetActionServlet</servlet-name>
+        <servlet-class>com.servletbook.actions.AddActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResetActionServlet</servlet-name>
+        <url-pattern>/simple-book-servlet/actions/reset</url-pattern>
+    </servlet-mapping>
 </web-app>
