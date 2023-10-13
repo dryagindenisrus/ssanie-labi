@@ -26,7 +26,7 @@ public class ResetActionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
 
         request.setAttribute("notes", notebook.getAllNotes());
         notebook.clearAllNotes();
