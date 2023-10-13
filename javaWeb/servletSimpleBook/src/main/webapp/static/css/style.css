@@ -13,8 +13,12 @@ main {
   padding-bottom: 100px;
 }
 
-footer {
-  flex-shrink: 0;
+li {
+    border-bottom: 1px solid;
+}
+
+.header-link {
+    text-decoration: none;
 }
 
 .width-max {

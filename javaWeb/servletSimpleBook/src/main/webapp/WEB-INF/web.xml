@@ -8,10 +8,13 @@
         <servlet-name>SimpleBookServlet</servlet-name>
         <servlet-class>com.servletbook.S</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>SimpleBookServlet</servlet-name>
         <url-pattern>/simple-book-servlet/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static/*</url-pattern>
     </servlet-mapping>
 
 </web-app>

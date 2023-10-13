@@ -1,23 +1,58 @@
-# MultiuserChat
+# ServletSimpleBook
+
+**Requirements**
+- gradle v8.3+
+- java v19+
+- tomcat v9.X.X+
 
 ### Task
 
-### Compile project:
-
+### Configure/Compile project:
+Download project:
 ```bash
-javac -d ./out ./src/*.java
+git clone https://github.com/Danzo0l/ssanie-labi
+```
+and go to `servletSimpleBook` directory:
+```bash
+cd javaWeb/servletSimpleBook
 ```
 
-### Run project:
+#### Config
+- Open `/src/main/config/config.ini.exp`
+- Paste path for saving book into file
+- Rename file from `config.ini.exp` to `config.ini`
 
-Start Server:
+#### Gradle build
+- For build project in `.war` run
 
-```bash
-java -cp ./out Server 4000
-```
+    ```bash
+    gradle war
+    ```
+    or 
+    ```bash
+    gradle build
+    ```
 
-Start Client:
+### Start tomcat:
+1. In `apache-tomcat directory`:  
+   - Windows
+   ```bash
+    .\bin\startup.bat
+    ```
+   - Linux
+   ```bash
+   ./bin/startup.sh
+    ```
 
-```bash
-java -cp ./out Client localhost 4000
-```
+2. Add to  `"apache-tomcat\conf\tomcat-users.xml"`
+    ```xml  
+    <role rolename="admin-gui"/>
+    <role rolename="manager-gui"/>
+    <user username="admin" password="admin" roles="admin-gui,manager-gui"/>
+    ```
+
+3. Open link:  
+   - [Apache-Tomcat](http://localhost:8080/manager/html/) and authorize on page.  
+   - Upload `.war` file from `servletSimpleBook/build/libs`  
+
+4. Project will be access by [http://localhost:8080/servlet-simple-book/](http://localhost:8080/servlet-simple-book/)

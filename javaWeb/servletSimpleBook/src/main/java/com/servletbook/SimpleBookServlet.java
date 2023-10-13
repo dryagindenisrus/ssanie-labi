@@ -1,5 +1,8 @@
 package com.servletbook;
 
+import com.config.Config;
+import com.config.ParseIniConfig;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -8,32 +11,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
-@WebServlet("/*")
+
+@WebServlet("/")
 public class SimpleBookServlet extends HttpServlet {
 
+    // ParseIniConfig paramsConfig = new ParseIniConfig();
+    Config paramsConfig = new Config();
     private Notebook notebook;
+    String pathToSave;
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         notebook = new Notebook();
-        ArrayList<String> nums = new ArrayList<>();
-        nums.add("Tel1"); nums.add("tel2");
-        notebook.addOrUpdateNote("Misha", nums.toString());
+
+        pathToSave = paramsConfig.pathToSave;
+
+        notebook.loadFromTextFile(pathToSave);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
-        String value = request.getParameter("value");
-        notebook.addOrUpdateNote(name, value);
+        String telephone = request.getParameter("telephone");
+        notebook.addOrUpdateNote(name, telephone);
+        notebook.saveToTextFile(pathToSave);
 
         request.setAttribute("notes", notebook.getAllNotes());
-
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect(request.getContextPath());
     }
 
     @Override
@@ -41,19 +48,21 @@ public class SimpleBookServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String uri = request.getRequestURI();
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-        response.setHeader("X-Total-count", "100");
-        if (uri.equals("/servlet-simple-book/action/add")) {
-            String name = request.getParameter("name");
-            notebook.addOrUpdateNote("Title", name);
-            response.sendRedirect("/home");
-        } else if (uri.equals("/servlet-simple-book/action/reset")) {
-            notebook.clearAllNotes();
-            response.sendRedirect("/home");
-        } else if (uri.equals("/static/")) {
-            return ;
+
+        request.setAttribute("notes", notebook.getAllNotes());
+
+        switch (uri) {
+            case "/servlet-simple-book/action/reset" -> {
+                notebook.clearAllNotes();
+                notebook.saveToTextFile(pathToSave);
+//                response.sendRedirect(request.getContextPath());
+            }
+            case "static/" -> {
+                return;
+            }
         }
 
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/main.jsp");
         request.setAttribute("notes", notebook.getAllNotes());
         dispatcher.forward(request, response);
     }

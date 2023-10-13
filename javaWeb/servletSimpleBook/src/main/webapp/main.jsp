@@ -19,20 +19,35 @@
 <body>
 <nav class="navbar navbar-light bg-light px-2">
     <div class="mx-auto w-100 width-max">
-        <h4 class="text-primary">Java Servlet</h4>
+        <a class="header-link" href="<%= request.getContextPath() %>">
+            <h4 class="text-primary">Java Servlet</h4>
+        </a>
     </div>
 </nav>
 <main>
     <div class="mx-auto px-2 width-max">
         <ul class="list-group list-group-flush m-auto width-max">
             <% try {
-                Map<String, ArrayList<String>> notebook = (Map<String, ArrayList<String>>)request.getAttribute("notes");
+                Map<String, ArrayList<String>> notebook = (Map<String, ArrayList<String>>) request.getAttribute("notes");
                 if (notebook != null) {
                     for (Map.Entry<String, ArrayList<String>> entry : notebook.entrySet()) {
+                        String key = entry.getKey();
+                        ArrayList<String> value = entry.getValue();
             %>
                 <li class="list-group-item">
-                    <p>Name: <%= entry.getKey() %></p>
-                    <p>Phones: <%= entry.getValue() %></p>
+                    <strong>Name:</strong> <span><%= key %></span><br>
+                    <strong>Phones:</strong>
+                    <%
+                        if (value != null) {
+                            for (String item : value) {
+                    %>
+                    <span>
+                        <%= item + ", " %>
+                    </span>
+                    <%
+                            }
+                        }
+                    %>
                 </li>
             <%
                 }
@@ -54,20 +69,19 @@
         <div class="form-group">
             <label for="name">Name:</label>
             <input class="form-control" type="text" id="name" name="name" required placeholder="Enter name">
-            <small id="nameHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <small id="nameHelp" class="form-text text-muted">Enter name for adding telephone</small>
         </div>
         <div class="form-group">
-            <label for="tel">Value:</label>
-            <input class="form-control" type="text" id="tel" name="Value" required placeholder="Enter name">
-            <small id="telHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <label for="telephone">Value:</label>
+            <input class="form-control" type="text" id="telephone" name="telephone" required placeholder="Enter telephone">
+            <small id="telHelp" class="form-text text-muted">Telephone will be add</small>
         </div>
         <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button onclick="location.href = <%= request.getContextPath() %>" type="submit" class="btn btn-primary">Submit</button>
+        <a href="<%= request.getContextPath() %>/action/reset" class="btn btn-danger ml-4">Reset</a>
     </form>
+
 </main>
-<footer class="footer bg-light py-2">
-    <p class="text-center text-muted">&#169 2023 Dryagin Denis</p>
-</footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
