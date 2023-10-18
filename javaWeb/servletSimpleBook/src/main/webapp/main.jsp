@@ -5,6 +5,8 @@
 <body>
 <%@ include file="jsp/header.jsp" %>
 <main>
+    <%@ include file="jsp/searchForm.jsp" %>
+
     <%@ include file="jsp/resultList.jsp" %>
     <%@ include file="jsp/formAdd.jsp" %>
 </main>

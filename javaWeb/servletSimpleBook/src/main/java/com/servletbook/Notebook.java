@@ -122,4 +122,21 @@ public class Notebook {
         return sb.toString();
     }
 
+    public synchronized List<String> getByTitle(String param) {
+        List<String> matchingNotes = new ArrayList<>();
+
+        for (Map.Entry<String, ArrayList<String>> entry : notes.entrySet()) {
+            String title = entry.getKey();
+            if (title.contains(param)) {
+                List<String> noteContents = entry.getValue();
+                for (String content : noteContents) {
+                    matchingNotes.add(title + ": " + content);
+                }
+            }
+        }
+
+        return matchingNotes;
+    }
+
+
 }
