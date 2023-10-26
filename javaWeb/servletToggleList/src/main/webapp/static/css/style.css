@@ -1,0 +1,70 @@
+html, body {
+  height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+  padding-bottom: 100px;
+}
+
+li {
+    border-bottom: 1px solid;
+}
+
+.header-link {
+    text-decoration: none;
+}
+
+.width-max {
+    max-width: 1000px;
+}
+
+.bg-none {
+    background: none !important;
+}
+
+.list-styles-custom {
+    list-style: none;
+    font-size: 32px;
+    text-align: left;
+}
+
+.sublist-styles {
+    list-style: none;
+    font-size: 24px;
+    text-align: left;
+    text-indent: 10px;
+    text-decoration: none;
+}
+.sublist-styles > li {
+    text-decoration: none;
+    border: none;
+}
+
+.another-view > li {
+    display: inline;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    background: none;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: aliceblue;
+    font-size: 20px;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+}
