@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <servlet>
+        <servlet-name>CallboardServlet</servlet-name>
+        <servlet-class>com.servletcallboard.CallboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CallboardServlet</servlet-name>
+        <url-pattern>/simple-book-servlet/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.servletcallboard.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/simple-book-servlet/login/</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>AddActionServlet</servlet-name>
+        <servlet-class>com.servletcallboard.actions.CreateActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddActionServlet</servlet-name>
+        <url-pattern>/simple-book-servlet/actions/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ResetActionServlet</servlet-name>
+        <servlet-class>com.servletcallboard.actions.CreateActionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResetActionServlet</servlet-name>
+        <url-pattern>/simple-book-servlet/actions/reset</url-pattern>
+    </servlet-mapping>
+</web-app>

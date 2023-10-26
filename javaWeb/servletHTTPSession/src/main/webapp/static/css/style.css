@@ -1,0 +1,31 @@
+html, body {
+  height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+  padding-bottom: 100px;
+}
+
+li {
+    border-bottom: 1px solid;
+}
+
+.header-link {
+    text-decoration: none;
+}
+
+.width-max {
+    max-width: 1000px;
+}
+
+.selected {
+    background-color: #00000010;
+    border-radius: 8px;
+}

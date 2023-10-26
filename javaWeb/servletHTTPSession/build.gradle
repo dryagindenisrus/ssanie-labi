@@ -1,0 +1,33 @@
+    plugins {
+    id("java")
+    id("war")
+    id("com.bmuschko.tomcat") version "2.7.0"
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+}
+
+
+
+war {
+    archiveFileName = 'servlet-callboard.war'
+    webAppDirName = 'src/main/webapp'
+    from('src/main/resources/static') {
+        into 'static'
+    }
+}
+
+tomcat {
+    httpProtocol = 'org.apache.coyote.http11.Http11NioProtocol'
+    ajpProtocol = 'org.apache.coyote.ajp.AjpNioProtocol'
+    httpPort = 8080
+    ajpPort = 8009
+    contextPath = '/'
+}
